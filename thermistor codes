@@ -17,49 +17,49 @@ colorbar_added = False
 while True:
 
 try:
-    line = ser.readline().decode('utf-8').strip()
+line = ser.readline().decode('utf-8').strip()
 
-    values = line.split(',')
+values = line.split(',')
 
-    if len(values) == 4:
+if len(values) == 4:
 
-        t1 = float(values[0])
-        t2 = float(values[1])
-        t3 = float(values[2])
-        t4 = float(values[3])
+    t1 = float(values[0])
+    t2 = float(values[1])
+    t3 = float(values[2])
+    t4 = float(values[3])
 
-        # 2x2 thermal matrix
-        temps = np.array([
-            [t1, t2],
-            [t3, t4]
-        ])
+    # 2x2 thermal matrix
+    temps = np.array([
+        [t1, t2],
+        [t3, t4]
+    ])
 
-        # Smooth interpolation
-        smooth = zoom(temps, 50)
+    # Smooth interpolation
+    smooth = zoom(temps, 50)
 
-        ax.clear()
+    ax.clear()
 
-        img = ax.imshow(
-            smooth,
-            cmap='turbo',
-            interpolation='bilinear'
-        )
+    img = ax.imshow(
+        smooth,
+        cmap='turbo',
+        interpolation='bilinear'
+    )
 
-        ax.set_title("Live Thermal Map")
+    ax.set_title("Live Thermal Map")
 
-        # Sensor labels
-        ax.text(5, 5, f"{t1:.1f}C", color='black')
-        ax.text(80, 5, f"{t2:.1f}C", color='black')
-        ax.text(5, 95, f"{t3:.1f}C", color='black')
-        ax.text(80, 95, f"{t4:.1f}C", color='black')
+    # Sensor labels
+    ax.text(5, 5, f"{t1:.1f}C", color='black')
+    ax.text(80, 5, f"{t2:.1f}C", color='black')
+    ax.text(5, 95, f"{t3:.1f}C", color='black')
+    ax.text(80, 95, f"{t4:.1f}C", color='black')
 
-        # Add colorbar once
-        if not colorbar_added:
-            plt.colorbar(img)
-            colorbar_added = True
+    # Add colorbar once
+    if not colorbar_added:
+        plt.colorbar(img)
+        colorbar_added = True
 
-        plt.pause(0.01)
+    plt.pause(0.01)
 
 except Exception as e:
-    print("Error:", e)
-        
+print("Error:", e)
+    
